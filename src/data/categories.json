@@ -1,0 +1,50 @@
+[
+      {
+        "category_id": 1,
+        "category_name": "Skincare",
+        "parent_category_id": null,
+        "category_image": "https://example.com/images/skincare_category.jpg"
+      },
+      {
+        "category_id": 2,
+        "category_name": "Cleansers",
+        "parent_category_id": 1,
+        "category_image": "https://example.com/images/cleansers_category.jpg"
+      },
+      {
+        "category_id": 3,
+        "category_name": "Moisturizers",
+        "parent_category_id": 1,
+        "category_image": "https://example.com/images/moisturizers_category.jpg"
+      },
+      {
+        "category_id": 4,
+        "category_name": "Toners",
+        "parent_category_id": 1,
+        "category_image": "https://example.com/images/toners_category.jpg"
+      },
+      {
+        "category_id": 5,
+        "category_name": "Sunscreen",
+        "parent_category_id": 1,
+        "category_image": "https://example.com/images/sunscreen_category.jpg"
+      },
+      {
+        "category_id": 6,
+        "category_name": "Serums",
+        "parent_category_id": 1,
+        "category_image": "https://example.com/images/serums_category.jpg"
+      },
+      {
+        "category_id": 7,
+        "category_name": "Makeup",
+        "parent_category_id": null,
+        "category_image": "https://example.com/images/makeup_category.jpg"
+      },
+      {
+        "category_id": 8,
+        "category_name": "Foundations",
+        "parent_category_id": 7,
+        "category_image": "https://example.com/images/foundations_category.jpg"
+      }
+]

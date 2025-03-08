@@ -1,0 +1,54 @@
+[
+    {
+      "user_id": 1,
+      "username": "skincare_lover",
+      "email": "skincare_lover@email.com",
+      "password_hash": "$2y$10$abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrs",
+      "first_name": "Aisha",
+      "last_name": "Adekunle",
+      "billing_address": "12, Tinubu Street, Lagos Island, Lagos",
+      "shipping_addresses": ["12, Tinubu Street, Lagos Island, Lagos", "Plot 45, Isaac John Street, Ikeja, Lagos"],
+      "phone_number": "+2348012345678",
+      "created_at": "2023-10-15T14:30:00Z",
+      "updated_at": "2024-01-05T09:00:00Z"
+    },
+    {
+      "user_id": 2,
+      "username": "beauty_guru_ng",
+      "email": "beauty_guru_ng@email.com",
+      "password_hash": "$2y$10$zyxwvutsrqponmlkjihgfedcba9876543210zyxwvutsrqponmlkjihg",
+      "first_name": "Chukwudi",
+      "last_name": "Okonkwo",
+      "billing_address": "5, Park Avenue, Enugu, Enugu State",
+      "shipping_addresses": ["5, Park Avenue, Enugu, Enugu State"],
+      "phone_number": "+2349098765432",
+      "created_at": "2023-11-20T10:00:00Z",
+      "updated_at": "2024-02-10T16:45:00Z"
+    },
+    {
+      "user_id": 3,
+      "username": "makeup_maven",
+      "email": "makeup_maven@email.com",
+      "password_hash": "$2y$10$mnopqrstuvwxyzabcdefghijkl0123456789mnopqrstuvwxyzabcdefgh",
+      "first_name": "Halima",
+      "last_name": "Bello",
+      "billing_address": "22, Sultan Road, Kaduna, Kaduna State",
+      "shipping_addresses": ["22, Sultan Road, Kaduna, Kaduna State", "3, Ahmadu Bello Way, Abuja"],
+      "phone_number": "+2347055554444",
+      "created_at": "2023-12-01T18:00:00Z",
+      "updated_at": "2024-02-28T12:00:00Z"
+    },
+    {
+      "user_id": 4,
+      "username": "natural_beauty",
+      "email": "natural_beauty@email.com",
+      "password_hash": "$2y$10$cdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwx",
+      "first_name": "Ifeoma",
+      "last_name": "Okafor",
+      "billing_address": "7, Uselu-Lagos Road, Benin City, Edo State",
+      "shipping_addresses": ["7, Uselu-Lagos Road, Benin City, Edo State"],
+      "phone_number": "+2348166667777",
+      "created_at": "2024-01-15T08:30:00Z",
+      "updated_at": "2024-03-05T15:30:00Z"
+    }
+]

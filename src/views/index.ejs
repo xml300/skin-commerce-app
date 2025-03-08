@@ -1,0 +1,89 @@
+<%- include("layouts/header.ejs", {title: "Skincare Shop - homepage"}) %>
+
+    <main class="container mx-auto p-4 md:p-8 lg:p-10">
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Featured Products</h2>
+            <div id="featuredProducts" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Featured products will be loaded here by JavaScript -->
+                <div class="text-center py-10">Loading featured products...</div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Shop by Category</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div class="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md text-center">
+                    <a href="/products?category=serums" class="block hover:underline">Serums</a>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md text-center">
+                    <a href="/products?category=cleansers" class="block hover:underline">Cleansers</a>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md text-center">
+                    <a href="/products?category=moisturizers" class="block hover:underline">Moisturizers</a>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md text-center">
+                    <a href="/products?category=masks" class="block hover:underline">Masks</a>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md text-center">
+                    <a href="/products?category=toners" class="block hover:underline">Toners</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">New Arrivals</h2>
+            <div id="newArrivals" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- New arrivals will be loaded here by JavaScript -->
+                <div class="text-center py-10">Loading new arrivals...</div>
+            </div>
+        </section>
+    </main>
+
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const featuredProductsContainer = document.getElementById('featuredProducts');
+            const newArrivalsContainer = document.getElementById('newArrivals');
+
+            const fetchProducts = async (container, limit = 4) => {
+                try {
+                    const response = await fetch(`/api/products?limit=${limit}`); // Fetch with limit for homepage
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const products = await response.json();
+                    displayProducts(container, products);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                    container.innerHTML = '<div class="text-center py-10">Failed to load products.</div>';
+                }
+            };
+
+            const displayProducts = (container, products) => {
+                container.innerHTML = ''; // Clear loading message
+                if (products.length === 0) {
+                    container.innerHTML = '<div class="text-center py-10">No products to display.</div>';
+                    return;
+                }
+                products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.classList.add('bg-white', 'dark:bg-gray-700', 'rounded-lg', 'shadow-md', 'overflow-hidden');
+                    productCard.innerHTML = `
+                        <a href="/product/${product.product_id}">
+                            <img class="w-full h-48 object-cover" src="${product.product_images}" alt="${product.product_name}">
+                            <div class="p-4">
+                                <h3 class="font-semibold text-gray-800 dark:text-white">${product.product_name}</h3>
+                                <p class="text-gray-600 dark:text-gray-300">₦${product.price}</p>
+                            </div>
+                        </a>
+                    `;
+                    container.appendChild(productCard);
+                });
+            };
+
+            fetchProducts(featuredProductsContainer);
+            fetchProducts(newArrivalsContainer); // Fetch again for new arrivals, can customize limit or endpoint if needed
+        });
+    </script>
+
+<%- include("layouts/footer.ejs") %>

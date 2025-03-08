@@ -1,0 +1,65 @@
+[
+    {
+      "review_id": 1,
+      "user_id": 1,
+      "product_id": 1,
+      "rating": 5,
+      "review_text": "This serum is amazing! My skin feels so hydrated and plump. Definitely worth the price.",
+      "review_date": "2024-02-25T10:00:00Z",
+      "is_approved": true
+    },
+    {
+      "review_id": 2,
+      "user_id": 2,
+      "product_id": 2,
+      "rating": 4,
+      "review_text": "A very gentle cleanser, perfect for my sensitive skin. It cleans well without drying out my face.",
+      "review_date": "2024-03-02T14:30:00Z",
+      "is_approved": true
+    },
+    {
+      "review_id": 3,
+      "user_id": 3,
+      "product_id": 3,
+      "rating": 5,
+      "review_text": "I've noticed a visible difference in my skin's brightness after using this moisturizer for a few weeks. Love it!",
+      "review_date": "2024-03-06T18:00:00Z",
+      "is_approved": true
+    },
+    {
+      "review_id": 4,
+      "user_id": 4,
+      "product_id": 4,
+      "rating": 3,
+      "review_text": "It's an okay toner. It does help with breakouts but can be a bit drying if used too often.",
+      "review_date": "2024-03-09T09:15:00Z",
+      "is_approved": false
+    },
+    {
+      "review_id": 5,
+      "user_id": 1,
+      "product_id": 5,
+      "rating": 4,
+      "review_text": "This night cream is very soothing and rich. Great for nighttime routine, especially during harmattan.",
+      "review_date": "2024-03-10T12:00:00Z",
+      "is_approved": true
+    },
+    {
+      "review_id": 6,
+      "user_id": 2,
+      "product_id": 6,
+      "rating": 5,
+      "review_text": "Best sunscreen ever! It's mineral, reef-safe and doesn't leave a white cast on my skin. Perfect for Lagos sun.",
+      "review_date": "2024-03-11T16:00:00Z",
+      "is_approved": true
+    },
+    {
+      "review_id": 7,
+      "user_id": 3,
+      "product_id": 7,
+      "rating": 4,
+      "review_text": "Good retinol serum, starting to see some improvements in my skin texture. Remember to use sunscreen!",
+      "review_date": "2024-03-12T10:30:00Z",
+      "is_approved": true
+    }
+  ]
