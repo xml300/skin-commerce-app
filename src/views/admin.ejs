@@ -85,13 +85,14 @@
           <div class="sm:flex sm:items-start">
             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
               <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
-                Add New Product
+                Add New Product <!-- Changed dynamically by JS -->
               </h3>
               <div class="mt-4">
                 <form
                   id="addProductForm"
                   class="mb-4"
                 >
+                  <input type="hidden" name="product_id" id="product_id_input" value=""> <!-- Hidden input for product ID when editing -->
                   <div class="mb-4">
                     <label
                       class="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
@@ -105,6 +106,7 @@
                       name="product_name"
                       type="text"
                       placeholder="Enter product name"
+                      required
                     />
                   </div>
                   <div class="mb-4">
@@ -120,6 +122,7 @@
                       name="description"
                       placeholder="Enter product description"
                       rows="3"
+                      required
                     ></textarea>
                   </div>
                   <div class="mb-4">
@@ -140,6 +143,7 @@
                         type="number"
                         step="0.01"
                         placeholder="Enter price"
+                        required
                       />
                     </div>
                   </div>
@@ -151,7 +155,8 @@
                       Category
                     </label>
                     <select name="category_id" id="category_id"
-                    class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white dark:bg-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white dark:bg-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required>
                         <option value="" selected>Select Category</option>
                         <% categories.forEach(element => { %>
                             <option value="<%= element.category_id %>">
@@ -193,7 +198,7 @@
             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm dark:bg-blue-700 dark:hover:bg-blue-800"
             type="button"
           >
-            Add Product
+            Add Product <!-- Changed dynamically by JS -->
           </button>
           <button
             id="modalCancelButton"
@@ -220,31 +225,36 @@
     const addProductModal = document.getElementById("addProductModal");
     const modalCancelButton = document.getElementById("modalCancelButton");
     const modalAddProductButton = document.getElementById("modalAddProductButton");
+    const modalTitle = document.getElementById("modal-title");
+    const productIdInput = document.getElementById("product_id_input");
 
     const productImageContainer = document.querySelector("#prod_img_container");
     const productImage = document.querySelector("input[type='file']");
+
+    let editingProductId = null; // Variable to track if we are in edit mode
 
     productImage.addEventListener("change", () => {
         const blob = new Blob([productImage.files[0]]);
         const url = URL.createObjectURL(blob);
         productImageContainer.style.backgroundImage = `url(${url})`;
-    
+
     })
 
 
     // Function to set dark mode based on preference
     const setDarkMode = (isDark) => {
-      if (isDark) {
-        htmlElement.classList.add("dark");
-        htmlElement.classList.remove("light");
-        localStorage.setItem("darkMode", "enabled");
-        darkModeToggle.checked = true;
-      } else {
-        htmlElement.classList.remove("dark");
-        htmlElement.classList.add("light");
-        localStorage.setItem("darkMode", "disabled");
-        darkModeToggle.checked = false;
-      }
+      // ... (Dark mode function - no changes needed) ...
+        if (isDark) {
+            htmlElement.classList.add("dark");
+            htmlElement.classList.remove("light");
+            localStorage.setItem("darkMode", "enabled");
+            darkModeToggle.checked = true;
+        } else {
+            htmlElement.classList.remove("dark");
+            htmlElement.classList.add("light");
+            localStorage.setItem("darkMode", "disabled");
+            darkModeToggle.checked = false;
+        }
     };
 
     // Check for saved preference in localStorage or system preference
@@ -268,7 +278,7 @@
       setDarkMode(darkModeToggle.checked);
     });
 
-    // Function to fetch and display products (rest of your JS code remains same)
+    // Function to fetch and display products
     const fetchProducts = async () => {
       try {
         const response = await fetch("/api/products");
@@ -316,9 +326,8 @@
           }
         } else if (event.target.classList.contains("edit-btn")) {
           const productId = event.target.dataset.productId;
-          alert(
-            `Edit functionality for product ID: ${productId} is not fully implemented in this MVP.`
-          );
+          editingProductId = productId; // Set editingProductId
+          openEditModal(productId); // Open modal for editing
         }
       });
     };
@@ -339,6 +348,46 @@
       }
     };
 
+    // **NEW FUNCTION: Open Edit Modal and Populate Form**
+    const openEditModal = async (productId) => {
+        modalTitle.textContent = "Edit Product"; // Change modal title
+        modalAddProductButton.textContent = "Save Changes"; // Change button text
+        addProductModal.classList.remove('hidden');
+        addProductModal.classList.add('flex');
+        productIdInput.value = productId; // Set hidden input value
+
+        try {
+            const response = await fetch(`/api/products/${productId}`); // Fetch product details
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const product = await response.json();
+            // Populate form fields with product data
+            document.getElementById("product_name").value = product.product_name;
+            document.getElementById("description").value = product.description;
+            document.getElementById("price").value = product.price;
+            document.getElementById("category_id").value = product.category_id;
+            // **Image handling for edit - for MVP, you might skip pre-filling image upload, or implement logic to show current image if available**
+            // For now, leaving image upload as is - user can re-upload if they want to change it.
+        } catch (error) {
+            console.error("Error fetching product for edit:", error);
+            alert("Failed to fetch product details for editing.");
+            closeModal(); // Close modal if fetch fails
+        }
+    };
+
+
+    const closeModal = () => {
+        addProductModal.classList.add('hidden');
+        addProductModal.classList.remove('flex');
+        productForm.reset(); // Clear form fields
+        editingProductId = null; // Reset editingProductId
+        modalTitle.textContent = "Add New Product"; // Reset modal title for "Add" mode
+        modalAddProductButton.textContent = "Add Product"; // Reset button text for "Add" mode
+        productIdInput.value = ""; // Clear hidden product_id input
+    };
+
+
     modalAddProductButton.addEventListener("click", async (event) => {
       event.preventDefault();
 
@@ -349,39 +398,55 @@
       });
 
       try {
-        const response = await fetch("/api/admin/products", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(productData),
-        });
+        let response;
+        if (editingProductId) {
+            // **EDIT MODE: Send PUT request**
+            response = await fetch(`/api/admin/products/${editingProductId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(productData),
+            });
+        } else {
+            // **ADD MODE: Send POST request (existing logic)**
+            response = await fetch("/api/admin/products", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(productData),
+            });
+        }
+
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
-        console.log("Product added successfully:", result);
-        alert("Product added successfully!");
+        console.log( editingProductId ? "Product updated successfully:" : "Product added successfully:", result);
+        alert(editingProductId ? "Product updated successfully!" : "Product added successfully!");
         productForm.reset();
-        addProductModal.classList.add('hidden'); // Hide modal after submit
-        addProductModal.classList.remove('flex');
+        closeModal(); // Hide modal after submit/update
         fetchProducts();
       } catch (error) {
-        console.error("Error adding product:", error);
-        alert("Failed to add product. Please check console for details.");
+        console.error(editingProductId ? "Error updating product:" : "Error adding product:", error);
+        alert(editingProductId ? "Failed to update product. Please check console for details." : "Failed to add product. Please check console for details.");
       }
     });
 
     addProductButton.addEventListener('click', () => {
+        editingProductId = null; // Reset to add mode
+        modalTitle.textContent = "Add New Product"; // Ensure modal title is "Add"
+        modalAddProductButton.textContent = "Add Product"; // Ensure button is "Add"
+        productIdInput.value = ""; // Clear hidden product_id input
         addProductModal.classList.remove('hidden');
         addProductModal.classList.add('flex');
     });
 
     modalCancelButton.addEventListener('click', () => {
-        addProductModal.classList.add('hidden');
-        addProductModal.classList.remove('flex');
+        closeModal();
     });
 
 
